@@ -14,8 +14,8 @@ namespace GymV1.ModelsContextDTOs.Context
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<GymClass> GymClasses { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
-        public DbSet<EquipmentGymClass> EquipmentGymClasses { get; set; }
-        public DbSet<MembershipGymClass> MembershipGymClasses { get; set; }
+        public DbSet<GymclassEquipment> GymClassEquipments { get; set; }
+        public DbSet<GymClassMembership> gymClassMemberships { get; set; }
 
     }
 }

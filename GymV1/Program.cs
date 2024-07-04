@@ -95,6 +95,7 @@ builder.Services.AddScoped<IGymClassRepository, GymClassRepository>();
 builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<IGymClassRepository, GymClassRepository>();
+builder.Services.AddScoped<IGymClassEquipmentRepository, GymClassEquipmentRepository>();
 
 // Agregar servicios al contenedor
 builder.Services.AddScoped<IAuthService, AuthService>();

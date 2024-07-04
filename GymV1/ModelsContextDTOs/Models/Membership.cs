@@ -10,6 +10,6 @@ namespace GymV1.ModelsContextDTOs.Models
         public MembershipType Type { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-        public ICollection<MembershipGymClass> MembershipGymClasses { get; set; }
+        public ICollection<GymClassMembership> MembershipGymClasses { get; set; }
     }
 }

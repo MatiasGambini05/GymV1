@@ -89,7 +89,7 @@ namespace GymV1.Controllers
         {
             try
             {
-                var deleteGymClassEquipment = _gymClassService.DeleteEquipment(deleteGymClassEquipmentDTO);
+                var deleteGymClassEquipment = _gymClassService.DeleteGymClassEquipment(deleteGymClassEquipmentDTO);
                 return Ok(deleteGymClassEquipment);
             }
             catch (Exception e)

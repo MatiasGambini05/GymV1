@@ -1,8 +1,8 @@
 ﻿namespace GymV1.ModelsContextDTOs.Models
 {
-    public class EquipmentGymClass
+    public class GymclassEquipment
     {
-        public int EquipmentGymClassId { get; set; }
+        public int GymclassEquipmentId { get; set; }
         public Equipment Equipment { get; set; }
         public int EquipmentId { get; set; }
         public GymClass GymClass { get; set; }

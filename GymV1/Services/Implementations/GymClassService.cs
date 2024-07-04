@@ -10,15 +10,18 @@ namespace GymV1.Services.Implementations
     {
         private readonly IGymClassRepository _gymClassRepository;
         private readonly IEquipmentRepository _equipmentRepository;
-        public GymClassService(IGymClassRepository gymClassRepository, IEquipmentRepository equipmentRepository)
+        private readonly IGymClassEquipmentRepository _equipmentEquipmentRepository;
+        public GymClassService(IGymClassRepository gymClassRepository, IEquipmentRepository equipmentRepository, IGymClassEquipmentRepository equipmentEquipmentRepository)
         {
             _gymClassRepository = gymClassRepository;
             _equipmentRepository = equipmentRepository;
+            _equipmentEquipmentRepository = equipmentEquipmentRepository;
         }
 
-        public IEnumerable<GymClass> GetAllGymClasses()
+        public IEnumerable<GymClassConstDTO> GetAllGymClasses()
         {
-            return _gymClassRepository.GetAllGymClasses();
+            var gymClasses = _gymClassRepository.GetAllGymClasses();
+            return gymClasses.Select(gc => new GymClassConstDTO(gc)).ToList();
         }
 
         public IEnumerable<GymClass> GetGymClassesByInstructor(int id)
@@ -63,7 +66,7 @@ namespace GymV1.Services.Implementations
             var equipmentIds = gymClassEquipmentDTO.Equipments.Select(eq => eq.EquipmentId).ToList();
             var equipments = _equipmentRepository.GetEquipmentsById(equipmentIds);
 
-            var equipmentGymClasses = gymClassEquipmentDTO.Equipments.Select(equipmentId => new EquipmentGymClass
+            var equipmentGymClasses = gymClassEquipmentDTO.Equipments.Select(equipmentId => new GymclassEquipment
             {
                 GymClassId = gymClassEquipmentDTO.GymClassId,
                 EquipmentId = equipmentId.EquipmentId,
@@ -76,15 +79,14 @@ namespace GymV1.Services.Implementations
             return "Equipamiento para la clase agregado correctamente.";
         }
 
-        public string DeleteEquipment(DeleteGymClassEquipmentDTO deleteGymClassEquipmentDTO)
+        public string DeleteGymClassEquipment(DeleteGymClassEquipmentDTO deleteGymClassEquipmentDTO)
         {
             var gymClass = _gymClassRepository.GetGymClassById(deleteGymClassEquipmentDTO.GymClassId);
             var equipmentGymClass = gymClass.EquipmentGymClasses
             .FirstOrDefault(egc => egc.EquipmentId == deleteGymClassEquipmentDTO.EquipmentId);
 
-            gymClass.EquipmentGymClasses.Remove(equipmentGymClass);
-            _gymClassRepository.SaveGC(gymClass);
-
+            _equipmentEquipmentRepository.DeleteGCE(equipmentGymClass);
+            
             return "Equipamiento para la clase eliminado correctamente.";
         }
     }

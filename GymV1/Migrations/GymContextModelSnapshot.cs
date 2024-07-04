@@ -45,32 +45,6 @@ namespace GymV1.Migrations
                     b.ToTable("Equipments");
                 });
 
-            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.EquipmentGymClass", b =>
-                {
-                    b.Property<int>("EquipmentGymClassId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EquipmentGymClassId"));
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GymClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("EquipmentGymClassId");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.HasIndex("GymClassId");
-
-                    b.ToTable("EquipmentGymClasses");
-                });
-
             modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymClass", b =>
                 {
                     b.Property<int>("GymClassId")
@@ -94,6 +68,55 @@ namespace GymV1.Migrations
                     b.HasIndex("InstructorId");
 
                     b.ToTable("GymClasses");
+                });
+
+            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymClassMembership", b =>
+                {
+                    b.Property<int>("GymClassMembershipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GymClassMembershipId"));
+
+                    b.Property<int>("GymClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MembershipId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GymClassMembershipId");
+
+                    b.HasIndex("GymClassId");
+
+                    b.HasIndex("MembershipId");
+
+                    b.ToTable("gymClassMemberships");
+                });
+
+            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymclassEquipment", b =>
+                {
+                    b.Property<int>("GymclassEquipmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GymclassEquipmentId"));
+
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GymClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("GymclassEquipmentId");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("GymClassId");
+
+                    b.ToTable("GymClassEquipments");
                 });
 
             modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.Instructor", b =>
@@ -142,29 +165,6 @@ namespace GymV1.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Memberships");
-                });
-
-            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.MembershipGymClass", b =>
-                {
-                    b.Property<int>("MembershipGymClassId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MembershipGymClassId"));
-
-                    b.Property<int>("GymClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MembershipId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MembershipGymClassId");
-
-                    b.HasIndex("GymClassId");
-
-                    b.HasIndex("MembershipId");
-
-                    b.ToTable("MembershipGymClasses");
                 });
 
             modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.Subscription", b =>
@@ -222,7 +222,37 @@ namespace GymV1.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.EquipmentGymClass", b =>
+            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymClass", b =>
+                {
+                    b.HasOne("GymV1.ModelsContextDTOs.Models.Instructor", "Instructor")
+                        .WithMany("GymClasses")
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Instructor");
+                });
+
+            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymClassMembership", b =>
+                {
+                    b.HasOne("GymV1.ModelsContextDTOs.Models.GymClass", "GymClass")
+                        .WithMany("MembershipGymClasses")
+                        .HasForeignKey("GymClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GymV1.ModelsContextDTOs.Models.Membership", "Membership")
+                        .WithMany("MembershipGymClasses")
+                        .HasForeignKey("MembershipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GymClass");
+
+                    b.Navigation("Membership");
+                });
+
+            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymclassEquipment", b =>
                 {
                     b.HasOne("GymV1.ModelsContextDTOs.Models.Equipment", "Equipment")
                         .WithMany("EquipmentGymClasses")
@@ -241,17 +271,6 @@ namespace GymV1.Migrations
                     b.Navigation("GymClass");
                 });
 
-            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.GymClass", b =>
-                {
-                    b.HasOne("GymV1.ModelsContextDTOs.Models.Instructor", "Instructor")
-                        .WithMany("GymClasses")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Instructor");
-                });
-
             modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.Membership", b =>
                 {
                     b.HasOne("GymV1.ModelsContextDTOs.Models.User", "User")
@@ -261,25 +280,6 @@ namespace GymV1.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.MembershipGymClass", b =>
-                {
-                    b.HasOne("GymV1.ModelsContextDTOs.Models.GymClass", "GymClass")
-                        .WithMany("MembershipGymClasses")
-                        .HasForeignKey("GymClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GymV1.ModelsContextDTOs.Models.Membership", "Membership")
-                        .WithMany("MembershipGymClasses")
-                        .HasForeignKey("MembershipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GymClass");
-
-                    b.Navigation("Membership");
                 });
 
             modelBuilder.Entity("GymV1.ModelsContextDTOs.Models.Subscription", b =>

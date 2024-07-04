@@ -122,10 +122,10 @@ namespace GymV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EquipmentGymClasses",
+                name: "GymClassEquipments",
                 columns: table => new
                 {
-                    EquipmentGymClassId = table.Column<int>(type: "int", nullable: false)
+                    GymclassEquipmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EquipmentId = table.Column<int>(type: "int", nullable: false),
                     GymClassId = table.Column<int>(type: "int", nullable: false),
@@ -133,15 +133,15 @@ namespace GymV1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EquipmentGymClasses", x => x.EquipmentGymClassId);
+                    table.PrimaryKey("PK_GymClassEquipments", x => x.GymclassEquipmentId);
                     table.ForeignKey(
-                        name: "FK_EquipmentGymClasses_Equipments_EquipmentId",
+                        name: "FK_GymClassEquipments_Equipments_EquipmentId",
                         column: x => x.EquipmentId,
                         principalTable: "Equipments",
                         principalColumn: "EquipmentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EquipmentGymClasses_GymClasses_GymClassId",
+                        name: "FK_GymClassEquipments_GymClasses_GymClassId",
                         column: x => x.GymClassId,
                         principalTable: "GymClasses",
                         principalColumn: "GymClassId",
@@ -149,25 +149,25 @@ namespace GymV1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MembershipGymClasses",
+                name: "gymClassMemberships",
                 columns: table => new
                 {
-                    MembershipGymClassId = table.Column<int>(type: "int", nullable: false)
+                    GymClassMembershipId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MembershipId = table.Column<int>(type: "int", nullable: false),
                     GymClassId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MembershipGymClasses", x => x.MembershipGymClassId);
+                    table.PrimaryKey("PK_gymClassMemberships", x => x.GymClassMembershipId);
                     table.ForeignKey(
-                        name: "FK_MembershipGymClasses_GymClasses_GymClassId",
+                        name: "FK_gymClassMemberships_GymClasses_GymClassId",
                         column: x => x.GymClassId,
                         principalTable: "GymClasses",
                         principalColumn: "GymClassId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MembershipGymClasses_Memberships_MembershipId",
+                        name: "FK_gymClassMemberships_Memberships_MembershipId",
                         column: x => x.MembershipId,
                         principalTable: "Memberships",
                         principalColumn: "MembershipId",
@@ -175,13 +175,13 @@ namespace GymV1.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentGymClasses_EquipmentId",
-                table: "EquipmentGymClasses",
+                name: "IX_GymClassEquipments_EquipmentId",
+                table: "GymClassEquipments",
                 column: "EquipmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentGymClasses_GymClassId",
-                table: "EquipmentGymClasses",
+                name: "IX_GymClassEquipments_GymClassId",
+                table: "GymClassEquipments",
                 column: "GymClassId");
 
             migrationBuilder.CreateIndex(
@@ -190,13 +190,13 @@ namespace GymV1.Migrations
                 column: "InstructorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MembershipGymClasses_GymClassId",
-                table: "MembershipGymClasses",
+                name: "IX_gymClassMemberships_GymClassId",
+                table: "gymClassMemberships",
                 column: "GymClassId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MembershipGymClasses_MembershipId",
-                table: "MembershipGymClasses",
+                name: "IX_gymClassMemberships_MembershipId",
+                table: "gymClassMemberships",
                 column: "MembershipId");
 
             migrationBuilder.CreateIndex(
@@ -214,10 +214,10 @@ namespace GymV1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EquipmentGymClasses");
+                name: "GymClassEquipments");
 
             migrationBuilder.DropTable(
-                name: "MembershipGymClasses");
+                name: "gymClassMemberships");
 
             migrationBuilder.DropTable(
                 name: "Subscriptions");

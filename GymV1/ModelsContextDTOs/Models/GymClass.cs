@@ -7,7 +7,7 @@
         public DateTime Schedule { get; set; }
         public Instructor Instructor { get; set; }
         public int InstructorId { get; set; }
-        public ICollection<MembershipGymClass> MembershipGymClasses { get; set; }
-        public ICollection<EquipmentGymClass> EquipmentGymClasses { get; set; }
+        public ICollection<GymClassMembership> MembershipGymClasses { get; set; }
+        public ICollection<GymclassEquipment> EquipmentGymClasses { get; set; }
     }
 }

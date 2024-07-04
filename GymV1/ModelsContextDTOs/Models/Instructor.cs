@@ -6,5 +6,9 @@
         public string Name { get; set; }
         public string Speciality { get; set; }
         public ICollection<GymClass> GymClasses { get; set; }
+        public Instructor()
+        {
+            GymClasses = new List<GymClass>();
+        }
     }
 }
